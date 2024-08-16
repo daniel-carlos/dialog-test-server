@@ -9,7 +9,7 @@ export class UserService {
   constructor(private readonly prisma: PrismaService) { }
   async create(data: CreateUserDTO) {
     console.log(
-      `Criar usuário ${data.username} com nome ${data.name} e email ${data.email}`,
+      `Criar usuário ${data.username} com nome ${data.name}`,
     );
     const newUser = await this.prisma.user.create({
       data,
@@ -25,6 +25,12 @@ export class UserService {
   async show(id: number) {
     return this.prisma.user.findFirst({
       where: { id },
+    });
+  }
+
+  async findByUsernameAndPassword(username: string, password: string) {
+    return this.prisma.user.findFirst({
+      where: { username, password },
     });
   }
 

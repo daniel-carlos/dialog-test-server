@@ -1,5 +1,6 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import { PrismaClient, User } from "@prisma/client";
 import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
@@ -9,20 +10,31 @@ export class AuthService {
         private readonly prisma: PrismaService
     ) { }
 
-    async createToken() {
-        // return this.jwtService.sign();
+    async createToken(user: User) {
+        return this.jwtService.sign(
+            {
+                sub: user.id,
+                username: user.username
+            },
+            {
+                expiresIn: "2 hours",
+            });
     }
     async checkToken(token: string) {
-        // return this.jwtService.verify(token);
+        try {
+            return this.jwtService.verify(token);
+        } catch (error) {
+            throw new BadRequestException(error);
+        }
     }
 
-    async login(email: string, password: string) {
+    async login(username: string, password: string) {
 
         // te amo infinito S2 (minha namorada escreveu isso)
         const user = await this.prisma.user.findFirst({
             where: {
-                email: email,
-                password: password
+                username,
+                password
             }
         })
 
@@ -30,7 +42,11 @@ export class AuthService {
             throw new UnauthorizedException("Credenciais inválidas");
         }
 
-        return user;
+        return this.createToken(user);
 
+    }
+
+    async me(token: string) {
+        return this.checkToken(token);
     }
 }
