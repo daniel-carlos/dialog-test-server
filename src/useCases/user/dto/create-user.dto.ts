@@ -2,6 +2,8 @@ import {
   IsAlphanumeric,
   IsEmail,
   IsNotEmpty,
+  IsString,
+  minLength,
   MinLength,
 } from 'class-validator';
 
@@ -18,4 +20,8 @@ export class CreateUserDTO {
   @IsEmail()
   @IsNotEmpty()
   email: string;
+
+  @IsString()
+  @MinLength(6)
+  password: string;
 }

@@ -6,14 +6,16 @@ import { PatchUserDTO } from './patch-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
   async create(data: CreateUserDTO) {
     console.log(
       `Criar usuário ${data.username} com nome ${data.name} e email ${data.email}`,
     );
-    return this.prisma.user.create({
+    const newUser = await this.prisma.user.create({
       data,
     });
+
+    return newUser;
   }
 
   async list() {
