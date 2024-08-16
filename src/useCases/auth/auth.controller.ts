@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UnauthorizedException, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Req, UnauthorizedException, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { AuthLoginDTO } from "./dto/auth.login.dto";
 import { AuthRegisterDTO } from "./dto/auth.register.dto";
 import { AuthForgetDTO } from "./dto/auth.forget.dto";
@@ -52,7 +52,7 @@ export class AuthController {
 
     @UseGuards(AuthGuard)
     @Get("me")
-    async me() {
-        return await this.authService.me("");
+    async me(@Req() req) {
+        return req.tokenPayload;
     }
 }

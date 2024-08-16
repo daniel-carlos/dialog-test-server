@@ -10,7 +10,7 @@ export class AuthService {
         private readonly prisma: PrismaService
     ) { }
 
-    async createToken(user: User) {
+    createToken(user: User) {
         return this.jwtService.sign(
             {
                 sub: user.id,
@@ -20,7 +20,7 @@ export class AuthService {
                 expiresIn: "2 hours",
             });
     }
-    async checkToken(token: string) {
+    checkToken(token: string) {
         try {
             return this.jwtService.verify(token);
         } catch (error) {
@@ -46,7 +46,7 @@ export class AuthService {
 
     }
 
-    async me(token: string) {
+    me(token: string) {
         return this.checkToken(token);
     }
 }
