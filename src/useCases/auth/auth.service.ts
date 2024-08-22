@@ -14,7 +14,10 @@ export class AuthService {
         return this.jwtService.sign(
             {
                 sub: user.id,
-                username: user.username
+                id: user.id,
+                username: user.username,
+                name: user.name,
+                avatarUrl: user.avatarUrl
             },
             {
                 expiresIn: "2 hours",

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { LikeService } from './dto/like.service';
 import { PrismaModule } from 'src/prisma/prisma.modeule';
 import { LikeController } from './like.controller';
+import { LikeService } from './like.service';
 
 @Module({
   imports: [PrismaModule],

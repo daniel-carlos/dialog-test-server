@@ -14,7 +14,7 @@ import {
 import { CreatePostDTO } from './dto/create-post.dto';
 import { UpdatePostDTO } from './dto/update-post.dto';
 import { PatchPostDTO } from './dto/patch-post.dto';
-import { PostService } from './dto/post.service';
+import { PostService } from './post.service';
 
 @Controller('posts')
 export class PostController {

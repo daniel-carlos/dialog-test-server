@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { UpdatePostDTO } from './update-post.dto';
-import { PatchPostDTO } from './patch-post.dto';
-import { CreatePostDTO } from './create-post.dto';
+import { UpdatePostDTO } from './dto/update-post.dto';
+import { PatchPostDTO } from './dto/patch-post.dto';
+import { CreatePostDTO } from './dto/create-post.dto';
 
 @Injectable()
 export class PostService {
@@ -19,7 +19,28 @@ export class PostService {
   }
 
   async list() {
-    return this.prisma.post.findMany();
+    return this.prisma.post.findMany({
+      // include: {
+      //   author: true,
+      //   likes: true,
+      // },
+      select: {
+        author: true,
+        authorId: true,
+        content: true,
+        id: true,
+        likes: {
+          select: {
+            id: true,
+            user: true
+          }
+        },
+        createdAt: true,
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
   }
 
   async show(id: number) {

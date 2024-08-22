@@ -4,7 +4,7 @@ import { AuthRegisterDTO } from "./dto/auth.register.dto";
 import { AuthForgetDTO } from "./dto/auth.forget.dto";
 import { AuthResetDTO } from "./dto/auth.reset.dto";
 import { AuthService } from "./auth.service";
-import { UserService } from "../user/dto/user.service";
+import { UserService } from "../user/user.service";
 import { AuthGuard } from "./auth.guard"
 import { PrismaService } from "src/prisma/prisma.service";
 import { error } from "console";
@@ -29,7 +29,9 @@ export class AuthController {
             }
         }
 
-        return this.authService.login(user.username, user.password);
+        return JSON.stringify({
+            token: await this.authService.login(user.username, user.password)
+        });
     }
 
     @Post('register')
@@ -38,12 +40,14 @@ export class AuthController {
         await this.userService.create(body);
     }
 
+    @UseGuards(AuthGuard)
     @Post("forget")
     @UsePipes(new ValidationPipe())
     async forget(@Body() body: AuthForgetDTO) {
 
     }
 
+    @UseGuards(AuthGuard)
     @Post("reset")
     @UsePipes(new ValidationPipe())
     async reset(@Body() body: AuthResetDTO) {
@@ -53,6 +57,9 @@ export class AuthController {
     @UseGuards(AuthGuard)
     @Get("me")
     async me(@Req() req) {
-        return req.tokenPayload;
+        return JSON.stringify({
+            ok: true,
+            user: req.tokenPayload
+        });
     }
 }

@@ -5,10 +5,12 @@ import { PrismaModule } from './prisma/prisma.modeule';
 import { UserModule } from './useCases/user/user.module';
 import { AuthModule } from './useCases/auth/auth.module';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
+import { PostModule } from './useCases/post/post.module';
+import { LikeModule } from './useCases/like/like.module';
 
 @Module({
   imports: [
-    PrismaModule, UserModule, AuthModule],
+    PrismaModule, AuthModule, UserModule, PostModule, LikeModule],
   controllers: [AppController],
   providers: [AppService],
 })

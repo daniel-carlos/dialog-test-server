@@ -2,29 +2,54 @@ import {
   Body,
   Controller,
   Delete,
+  FileTypeValidator,
   Get,
+  MaxFileSizeValidator,
   Param,
+  ParseFilePipe,
   ParseIntPipe,
   Patch,
   Post,
   Put,
+  UploadedFile,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { PatchUserDTO } from './dto/patch-user.dto';
-import { UserService } from './dto/user.service';
+import { UserService } from './user.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import * as fs from 'fs';
+import * as path from 'path';
+import { FileSizeValidationPipe } from 'src/decorators/decorators';
+import { writeFile } from 'fs/promises';
+import { FileService } from 'src/modules/file/file.service';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService, private readonly fileService: FileService) { }
 
   @Post()
   @UsePipes(new ValidationPipe())
   async create(@Body() data: CreateUserDTO) {
     return this.userService.create(data);
   }
+
+
+  @Post('avatar-upload/:userid')
+  @UseInterceptors(FileInterceptor('avatar', {
+    limits: { files: 1 }
+  }))
+  async uploadFile(@UploadedFile() avatar: Express.Multer.File, @Param('userid', ParseIntPipe) userId) {
+    try {
+      return this.fileService.uploadAvatar(avatar, userId);
+    } catch (error) {
+      console.error('Erro ao salvar o arquivo:', error);
+    }
+  }
+
 
   @Get()
   async list() {

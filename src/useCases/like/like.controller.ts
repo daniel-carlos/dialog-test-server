@@ -14,11 +14,11 @@ import {
 import { CreateLikeDTO } from './dto/create-like.dto';
 import { UpdateLikeDTO } from './dto/update-like.dto';
 import { PatchLikeDTO } from './dto/patch-like.dto';
-import { LikeService } from './dto/like.service';
+import { LikeService } from './like.service';
 
 @Controller('likes')
 export class LikeController {
-  constructor(private readonly likeService: LikeService) {}
+  constructor(private readonly likeService: LikeService) { }
 
   @Post()
   @UsePipes(new ValidationPipe())
@@ -48,8 +48,18 @@ export class LikeController {
     return this.likeService.patch(id, data);
   }
 
-  @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id) {
-    return this.likeService.delete(id);
+  @Get(':userId/:postId')
+  async createClick(@Param('userId', ParseIntPipe) userId, @Param('postId', ParseIntPipe) postId) {
+    return this.likeService.createClick(userId, postId);
+  }
+
+  @Delete(':userId/:postId')
+  async deleteClick(@Param('userId', ParseIntPipe) userId, @Param('postId', ParseIntPipe) postId) {
+    return this.likeService.deleteClick(userId, postId);
+  }
+
+  @Get('toggle/:userId/:postId')
+  async likeToggle(@Param('userId', ParseIntPipe) userId, @Param('postId', ParseIntPipe) postId) {
+    return this.likeService.likeToggle(userId, postId);
   }
 }
