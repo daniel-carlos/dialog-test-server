@@ -15,7 +15,9 @@ import { CreateLikeDTO } from './dto/create-like.dto';
 import { UpdateLikeDTO } from './dto/update-like.dto';
 import { PatchLikeDTO } from './dto/patch-like.dto';
 import { LikeService } from './like.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("Like")
 @Controller('likes')
 export class LikeController {
   constructor(private readonly likeService: LikeService) { }

@@ -15,10 +15,12 @@ import { CreatePostDTO } from './dto/create-post.dto';
 import { UpdatePostDTO } from './dto/update-post.dto';
 import { PatchPostDTO } from './dto/patch-post.dto';
 import { PostService } from './post.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("Post")
 @Controller('posts')
 export class PostController {
-  constructor(private readonly postService: PostService) {}
+  constructor(private readonly postService: PostService) { }
 
   @Post()
   @UsePipes(new ValidationPipe())

@@ -2,11 +2,8 @@ import {
   Body,
   Controller,
   Delete,
-  FileTypeValidator,
   Get,
-  MaxFileSizeValidator,
   Param,
-  ParseFilePipe,
   ParseIntPipe,
   Patch,
   Post,
@@ -21,12 +18,10 @@ import { UpdateUserDTO } from './dto/update-user.dto';
 import { PatchUserDTO } from './dto/patch-user.dto';
 import { UserService } from './user.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import * as fs from 'fs';
-import * as path from 'path';
-import { FileSizeValidationPipe } from 'src/decorators/decorators';
-import { writeFile } from 'fs/promises';
 import { FileService } from 'src/modules/file/file.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("User")
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService, private readonly fileService: FileService) { }

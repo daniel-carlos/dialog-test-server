@@ -8,7 +8,9 @@ import { UserService } from "../user/user.service";
 import { AuthGuard } from "./auth.guard"
 import { PrismaService } from "src/prisma/prisma.service";
 import { error } from "console";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags("Auth")
 @Controller("auth")
 export class AuthController {
 
