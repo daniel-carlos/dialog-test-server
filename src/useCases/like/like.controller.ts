@@ -12,8 +12,6 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateLikeDTO } from './dto/create-like.dto';
-import { UpdateLikeDTO } from './dto/update-like.dto';
-import { PatchLikeDTO } from './dto/patch-like.dto';
 import { LikeService } from './like.service';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -36,18 +34,6 @@ export class LikeController {
   @Get(':id')
   async show(@Param('id', ParseIntPipe) id) {
     return this.likeService.show(id);
-  }
-
-  @Put(':id')
-  @UsePipes(new ValidationPipe())
-  async update(@Param('id', ParseIntPipe) id, @Body() data: UpdateLikeDTO) {
-    return this.likeService.update(id, data);
-  }
-
-  @Patch(':id')
-  @UsePipes(new ValidationPipe())
-  async patch(@Param('id', ParseIntPipe) id, @Body() data: PatchLikeDTO) {
-    return this.likeService.patch(id, data);
   }
 
   @Get(':userId/:postId')
