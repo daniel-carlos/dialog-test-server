@@ -9,18 +9,27 @@ import {
 } from 'class-validator';
 
 export class CreateUserDTO {
-  @ApiProperty()
+  @ApiProperty({
+    title: "Nome",
+    description: "Nome da pessoa"
+  })
   @IsNotEmpty()
   @MinLength(4)
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    title: "Username",
+    description: "nome de usuário que será usado para logar no sitema"
+  })
   @IsNotEmpty()
   @IsAlphanumeric()
   @MinLength(4)
   username: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    title: "Senha",
+    description: "Senha do uduário"
+  })
   @IsString()
   @MinLength(6)
   password: string;

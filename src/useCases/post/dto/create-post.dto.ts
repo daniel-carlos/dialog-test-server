@@ -7,12 +7,18 @@ import {
 } from 'class-validator';
 
 export class CreatePostDTO {
-  @ApiProperty()
+  @ApiProperty({
+    title: "Conteudo",
+    description: "Texto que será exibido na postagem"
+  })
   @IsNotEmpty()
   @MinLength(4)
   content: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    title: "ID do autor",
+    description: "ID do usuário que será o dono da postagem"
+  })
   @IsInt()
   @IsNotEmpty()
   authorId: number;
