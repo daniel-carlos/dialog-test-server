@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateLikeDTO } from './dto/create-like.dto';
-import { UpdateLikeDTO } from './dto/update-like.dto';
-import { PatchLikeDTO } from './dto/patch-like.dto';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class LikeService {
@@ -38,27 +36,13 @@ export class LikeService {
     }
   }
 
-  async list() {
+  async list(): Promise<{ id: number; userId: number; postId: number; }[]> {
     return this.prisma.like.findMany();
   }
 
   async show(id: number) {
     return this.prisma.like.findFirst({
       where: { id },
-    });
-  }
-
-  async update(id: number, data: UpdateLikeDTO) {
-    return this.prisma.like.update({
-      where: { id },
-      data,
-    });
-  }
-
-  async patch(id: number, data: PatchLikeDTO) {
-    return this.prisma.like.update({
-      where: { id },
-      data,
     });
   }
 

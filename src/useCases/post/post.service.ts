@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { UpdatePostDTO } from './dto/update-post.dto';
-import { PatchPostDTO } from './dto/patch-post.dto';
 import { CreatePostDTO } from './dto/create-post.dto';
 
 @Injectable()
@@ -46,30 +44,6 @@ export class PostService {
   async show(id: number) {
     return this.prisma.post.findFirst({
       where: { id },
-    });
-  }
-
-  async update(id: number, data: UpdatePostDTO) {
-    return this.prisma.post.update({
-      where: { id },
-      data: {
-        content: data.content,
-        author: {
-          connect: { id: data.authorId },
-        },
-      },
-    });
-  }
-
-  async patch(id: number, data: PatchPostDTO) {
-    return this.prisma.post.update({
-      where: { id },
-      data: {
-        content: data.content,
-        author: {
-          connect: { id: data.authorId },
-        },
-      },
     });
   }
 
